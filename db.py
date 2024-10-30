@@ -20,6 +20,7 @@ class VocabDB():
         res = cur.execute(f'SELECT LOOKUPS.word_key,LOOKUPS.usage,WORDS.word,WORDS.stem,WORDS.lang,LOOKUPS.timestamp FROM LOOKUPS, WORDS WHERE LOOKUPS.word_key=WORDS.id AND LOOKUPS.book_key="{book_id}" AND LOOKUPS.timestamp>{timestamp}')
         all_words = res.fetchall()
         
+        word_list = []
         result = []
         for word_key in all_words:
             key = word_key[0]
@@ -28,6 +29,8 @@ class VocabDB():
             stem = word_key[3].replace('・', '').replace('‐', '')
             lang = word_key[4]
             timestamp = word_key[5]
-            item = {'word':word, 'key':key, 'usage':usage, 'stem':stem, 'lang':lang, 'definition':'', 'timestamp':timestamp}
-            result.append(item)
+            if word not in word_list:
+                item = {'word':word, 'key':key, 'usage':usage, 'stem':stem, 'lang':lang, 'definition':'', 'timestamp':timestamp}
+                result.append(item)
+                word_list.append(word)
         return result

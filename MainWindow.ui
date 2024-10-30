@@ -35,6 +35,13 @@
        </widget>
       </item>
       <item>
+       <widget class="QPushButton" name="autoDetectKindleButton">
+        <property name="text">
+         <string>Auto Detect</string>
+        </property>
+       </widget>
+      </item>
+      <item>
        <widget class="QPushButton" name="loadDBButton">
         <property name="text">
          <string>Load DB</string>
@@ -78,7 +85,7 @@
           <item>
            <widget class="QLabel" name="label_3">
             <property name="text">
-             <string>After Timestamp</string>
+             <string>After Timestamp:</string>
             </property>
            </widget>
           </item>
@@ -228,7 +235,37 @@
     <addaction name="actionOpen_Vocab_DB"/>
     <addaction name="actionLoad_DB"/>
    </widget>
+   <widget class="QMenu" name="menuBook">
+    <property name="title">
+     <string>Book</string>
+    </property>
+    <addaction name="actionSelect_Timestamp"/>
+    <addaction name="actionLoad_Vocabulary"/>
+   </widget>
+   <widget class="QMenu" name="menuDictionary">
+    <property name="title">
+     <string>Definition</string>
+    </property>
+    <addaction name="actionAdd_Definitions"/>
+   </widget>
+   <widget class="QMenu" name="menuExport">
+    <property name="title">
+     <string>Export</string>
+    </property>
+    <addaction name="actionSelect_Ouput_File"/>
+    <addaction name="actionSave_TSV_File"/>
+   </widget>
+   <widget class="QMenu" name="menuSettings">
+    <property name="title">
+     <string>Settings</string>
+    </property>
+    <addaction name="actionManage_Dictionaries"/>
+   </widget>
    <addaction name="menuKindle_DB"/>
+   <addaction name="menuBook"/>
+   <addaction name="menuDictionary"/>
+   <addaction name="menuExport"/>
+   <addaction name="menuSettings"/>
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
   <action name="actionOpen_Vocab_DB">
@@ -239,6 +276,36 @@
   <action name="actionLoad_DB">
    <property name="text">
     <string>Load DB</string>
+   </property>
+  </action>
+  <action name="actionSelect_Timestamp">
+   <property name="text">
+    <string>Select Timestamp...</string>
+   </property>
+  </action>
+  <action name="actionLoad_Vocabulary">
+   <property name="text">
+    <string>Load Vocabulary</string>
+   </property>
+  </action>
+  <action name="actionAdd_Definitions">
+   <property name="text">
+    <string>Add Definitions</string>
+   </property>
+  </action>
+  <action name="actionSelect_Ouput_File">
+   <property name="text">
+    <string>Select Ouput File...</string>
+   </property>
+  </action>
+  <action name="actionSave_TSV_File">
+   <property name="text">
+    <string>Save TSV File</string>
+   </property>
+  </action>
+  <action name="actionManage_Dictionaries">
+   <property name="text">
+    <string>Manage Dictionaries...</string>
    </property>
   </action>
  </widget>

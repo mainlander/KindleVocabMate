@@ -1,7 +1,33 @@
 import bs4
-from dicts import StardictDictionary
+from dicts import StardictDictionary, JsonDictionary
 
-class DaijirinDictionary(StardictDictionary):
+class DaijirinDictionary(JsonDictionary):
+    def __init__(self, cover_image, file_prefix_path):
+        super().__init__(cover_image, file_prefix_path)
+
+    def query(self, term):
+        definitions = super().query_as_list(term)
+        if len(definitions) > 0:
+            result = []
+            for defi in definitions:
+                result.append(defi)
+            return "\n\n".join(result)
+        return ''
+
+class DaijisenDictionary(JsonDictionary):
+    def __init__(self, cover_image, file_prefix_path):
+        super().__init__(cover_image, file_prefix_path)
+
+    def query(self, term):
+        definitions = super().query_as_list(term)
+        if len(definitions) > 0:
+            result = []
+            for defi in definitions:
+                result.append(defi)
+            return "\n\n".join(result)
+        return ''
+
+class OldDaijirinDictionary(StardictDictionary):
     def __init__(self, cover_image, filepath):
         super().__init__('三省堂·スーパー大辞林', 'ja', cover_image, filepath)
 
@@ -48,8 +74,7 @@ class DaijirinDictionary(StardictDictionary):
                 result_texts.append(f"<p>{tag_deri.text}</p>")
         return "\n".join(result_texts)
 
-
-class DaijisenDictionary(StardictDictionary):
+class OldDaijisenDictionary(StardictDictionary):
     def __init__(self, cover_image, filepath):
         super().__init__('小学館·大辞泉', 'ja', cover_image, filepath)
 

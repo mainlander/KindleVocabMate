@@ -13,9 +13,9 @@ def load_icon_from_url(url):
         try:
             os.makedirs(coverImagePath)
         except FileExistsError:
-            print("檔案已存在。")
+            print("File already exists.")
         except PermissionError:
-            print("權限不足。")
+            print("No Premission.")
     pixmap = QPixmap()
     filename = os.path.basename(url)
     #file = QFile(os.path.join("." , "/cover_images/" + filename))
@@ -44,7 +44,7 @@ def load_icon_from_url(url):
 class DateDialog(QDialog):
     def __init__(self, parent=None):
         super(DateDialog, self).__init__(parent)
-        self.setWindowTitle("Select Timestamp")
+        self.setWindowTitle(self.tr("Select Timestamp"))
 
         layout = QVBoxLayout(self)
 
