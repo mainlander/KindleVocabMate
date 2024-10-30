@@ -239,7 +239,7 @@ class KindleVocabMateMainWindow(QMainWindow, MainWindow.Ui_MainWindow):
                     kindleDrive = drive.Caption
             if kindleDrive:
                 if os.path.exists(os.path.join(kindleDrive, 'system/vocabulary/vocab.db')):
-                    self.dbPathEdit.settext('/volumes/kindle/system/vocabulary/vocab.db')
+                    self.dbPathEdit.setText('/volumes/kindle/system/vocabulary/vocab.db')
                 else:
                     mbox = QMessageBox()
                     mbox.information(self, self.tr('no vocab.db'), self.tr('vocab.db does not exists in the kindle device.'))
