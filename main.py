@@ -225,10 +225,10 @@ class KindleVocabMateMainWindow(QMainWindow, MainWindow.Ui_MainWindow):
                 if os.path.exists('/volumes/kindle/system/vocabulary/vocab.db'):
                     self.dbpathedit.settext('/volumes/kindle/system/vocabulary/vocab.db')
                 else:
-                    mbox = qmessagebox()
+                    mbox = QMessageBox()
                     mbox.information(self, self.tr('no vocab.db'), self.tr('vocab.db does not exists in the kindle device.'))
             else:
-                mbox = qmessagebox()
+                mbox = QMessageBox()
                 mbox.information(self, self.tr('no kindle'), self.tr('no kindle device is detected'))
         elif platform.system() == 'Windows':
             import wmi
@@ -241,10 +241,10 @@ class KindleVocabMateMainWindow(QMainWindow, MainWindow.Ui_MainWindow):
                 if os.path.exists(os.path.join(kindleDrive, 'system/vocabulary/vocab.db')):
                     self.dbpathedit.settext('/volumes/kindle/system/vocabulary/vocab.db')
                 else:
-                    mbox = qmessagebox()
+                    mbox = QMessageBox()
                     mbox.information(self, self.tr('no vocab.db'), self.tr('vocab.db does not exists in the kindle device.'))
             else:
-                mbox = qmessagebox()
+                mbox = QMessageBox()
                 mbox.information(self, self.tr('no kindle'), self.tr('no kindle device is detected'))
 
 
