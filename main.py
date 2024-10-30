@@ -238,7 +238,7 @@ class KindleVocabMateMainWindow(QMainWindow, MainWindow.Ui_MainWindow):
                 if drive.DriveType == 2 and drive.VolumeName == 'KINDLE':
                     kindleDrive = drive.Caption
             if kindleDrive:
-                kindle_vocab_db_path = os.path.join(kindleDrive, 'system/vocabulary/vocab.db')
+                kindle_vocab_db_path = os.path.join(kindleDrive, '/system/vocabulary/vocab.db')
                 if os.path.exists(kindle_vocab_db_path):
                     self.dbPathEdit.setText(kindle_vocab_db_path)
                 else:
