@@ -13,54 +13,13 @@ import platform
 from pathlib import Path
 
 from db import VocabDB
-from utils import load_icon_from_url, DateDialog
-#from installed_dicts import INSTALLED_DICTS
+from utils import load_icon_from_url, DateDialog, VocabTableModel
 from dicts import JsonDictionary
 from DictionarySettingDialog import DictionarySettingDialog
 
 QApplication.setOrganizationDomain('dila.edu.tw')
 QApplication.setOrganizationName('DILA')
 QApplication.setApplicationName('KindleVocabMate')
-
-class VocabTableModel(QAbstractTableModel):
-    def __init__(self, data, parent=None):
-        super().__init__(parent)
-        self._data = data
-
-    def set_data(self, new_data):
-        self._data = new_data
-    
-    def data(self, index, role):
-        row = index.row()
-        col = index.column()
-        if role in {Qt.ItemDataRole.DisplayRole}:
-            book = self._data[row]
-            if col == 0:
-                return book['word']
-            elif col == 1:
-                return book['usage']
-            elif col == 2:
-                return book['lang']
-            elif col == 3:
-                return book['definition']
-            else:
-                return None
-
-    def rowCount(self, parent=QModelIndex()):
-        return len(self._data)
-
-    def columnCount(self, parent=QModelIndex()):
-        return 4
-
-    def headerData(self, section, orientation, role=Qt.ItemDataRole.DisplayRole):
-        titles = [self.tr('Word'), self.tr('Usage'), self.tr('Language'), self.tr('Definition')]
-        if role == Qt.ItemDataRole.DisplayRole:
-            if orientation == Qt.Orientation.Horizontal:
-                return titles[section]
-            elif orientation == Qt.Orientation.Vertical:
-                return f'{section + 1}'
-        return super().headerData(section, orientation, role)
-
 
 class KindleVocabMateMainWindow(QMainWindow, MainWindow.Ui_MainWindow):
     def __init__(self):
@@ -262,21 +221,33 @@ class KindleVocabMateMainWindow(QMainWindow, MainWindow.Ui_MainWindow):
 
     def autoDetectClicked(self):
         if platform.system() == 'Darwin':
-            if os.path.exists('/Volumes/KINDLE'):
-                if os.path.exists('/Volumes/KINDLE/system/vocabulary/vocab.db'):
-                    self.dbPathEdit.setText('/Volumes/KINDLE/system/vocabulary/vocab.db')
+            if os.path.exists('/volumes/kindle'):
+                if os.path.exists('/volumes/kindle/system/vocabulary/vocab.db'):
+                    self.dbpathedit.settext('/volumes/kindle/system/vocabulary/vocab.db')
                 else:
-                    mbox = QMessageBox()
-                    mbox.information(self, self.tr('No vocab.db'), self.tr('vocab.db does not exists in the Kindle device.'))
+                    mbox = qmessagebox()
+                    mbox.information(self, self.tr('no vocab.db'), self.tr('vocab.db does not exists in the kindle device.'))
             else:
-                mbox = QMessageBox()
-                mbox.information(self, self.tr('No KINDLE'), self.tr('No Kindle device is detected'))
+                mbox = qmessagebox()
+                mbox.information(self, self.tr('no kindle'), self.tr('no kindle device is detected'))
         elif platform.system() == 'Windows':
             import wmi
             c = wmi.WMI()
+            kindleDrive = None
             for drive in c.Win32_LogicalDisk():
-                print(drive)
-                print(drive.Caption, drive.VolumeName, drive.DriveType)
+                if drive.DriveType == 2 and drive.VolumeName == 'KINDLE':
+                    kindleDrive = drive.Caption
+            if kindleDrive:
+                if os.path.exists(os.path.join(kindleDrive, 'system/vocabulary/vocab.db')):
+                    self.dbpathedit.settext('/volumes/kindle/system/vocabulary/vocab.db')
+                else:
+                    mbox = qmessagebox()
+                    mbox.information(self, self.tr('no vocab.db'), self.tr('vocab.db does not exists in the kindle device.'))
+            else:
+                mbox = qmessagebox()
+                mbox.information(self, self.tr('no kindle'), self.tr('no kindle device is detected'))
+
+
     
 
 

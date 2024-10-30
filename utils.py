@@ -6,6 +6,45 @@ from PyQt6.QtGui import *
 
 USER_AGENT = 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_9_3) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/35.0.1916.47 Safari/537.36'
 
+class VocabTableModel(QAbstractTableModel):
+    def __init__(self, data, parent=None):
+        super().__init__(parent)
+        self._data = data
+
+    def set_data(self, new_data):
+        self._data = new_data
+    
+    def data(self, index, role):
+        row = index.row()
+        col = index.column()
+        if role in {Qt.ItemDataRole.DisplayRole}:
+            book = self._data[row]
+            if col == 0:
+                return book['word']
+            elif col == 1:
+                return book['usage']
+            elif col == 2:
+                return book['lang']
+            elif col == 3:
+                return book['definition']
+            else:
+                return None
+
+    def rowCount(self, parent=QModelIndex()):
+        return len(self._data)
+
+    def columnCount(self, parent=QModelIndex()):
+        return 4
+
+    def headerData(self, section, orientation, role=Qt.ItemDataRole.DisplayRole):
+        titles = [self.tr('Word'), self.tr('Usage'), self.tr('Language'), self.tr('Definition')]
+        if role == Qt.ItemDataRole.DisplayRole:
+            if orientation == Qt.Orientation.Horizontal:
+                return titles[section]
+            elif orientation == Qt.Orientation.Vertical:
+                return f'{section + 1}'
+        return super().headerData(section, orientation, role)
+
 def load_icon_from_url(url):
     dataPath = QStandardPaths.writableLocation(QStandardPaths.StandardLocation.AppLocalDataLocation)
     coverImagePath = os.path.join(dataPath, 'cover_images')
