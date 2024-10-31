@@ -25,12 +25,14 @@ class Ui_EditDictionaryDialog(object):
         self.label.setObjectName("label")
         self.formLayout.setWidget(0, QtWidgets.QFormLayout.ItemRole.LabelRole, self.label)
         self.dictionaryNameLineEdit = QtWidgets.QLineEdit(parent=self.groupBox)
+        self.dictionaryNameLineEdit.setReadOnly(True)
         self.dictionaryNameLineEdit.setObjectName("dictionaryNameLineEdit")
         self.formLayout.setWidget(0, QtWidgets.QFormLayout.ItemRole.FieldRole, self.dictionaryNameLineEdit)
         self.label_2 = QtWidgets.QLabel(parent=self.groupBox)
         self.label_2.setObjectName("label_2")
         self.formLayout.setWidget(2, QtWidgets.QFormLayout.ItemRole.LabelRole, self.label_2)
         self.dictionaryLangComboBox = QtWidgets.QComboBox(parent=self.groupBox)
+        self.dictionaryLangComboBox.setEnabled(False)
         self.dictionaryLangComboBox.setEditable(False)
         self.dictionaryLangComboBox.setObjectName("dictionaryLangComboBox")
         self.dictionaryLangComboBox.addItem("")
@@ -74,7 +76,7 @@ class Ui_EditDictionaryDialog(object):
 
     def retranslateUi(self, EditDictionaryDialog):
         _translate = QtCore.QCoreApplication.translate
-        EditDictionaryDialog.setWindowTitle(_translate("EditDictionaryDialog", "Dialog"))
+        EditDictionaryDialog.setWindowTitle(_translate("EditDictionaryDialog", "Edit Dictionary"))
         self.groupBox.setTitle(_translate("EditDictionaryDialog", "Dictionary"))
         self.label.setText(_translate("EditDictionaryDialog", "Name:"))
         self.label_2.setText(_translate("EditDictionaryDialog", "Language:"))

@@ -1,5 +1,5 @@
 import json
-import pystardict
+#import pystardict
 
 class VocabDictionary():
     def __init__(self, name, lang, cover_image):
@@ -20,13 +20,13 @@ class VocabDictionary():
     def query(self, term):
         return ''
 
-class StardictDictionary(VocabDictionary):
-	def __init__(self, name, lang, cover_image, filepath):
-		super().__init__(name, lang, cover_image)
-		self.stardict = pystardict.Dictionary(filepath)
-
-	def query(self, term):
-	    return self.stardict.get(term).strip() 
+#class StardictDictionary(VocabDictionary):
+#	def __init__(self, name, lang, cover_image, filepath):
+#		super().__init__(name, lang, cover_image)
+#		self.stardict = pystardict.Dictionary(filepath)
+#
+#	def query(self, term):
+#	    return self.stardict.get(term).strip() 
 
 class JsonDictionary(VocabDictionary):
     def __init__(self, cover_image, file_prefix_path):

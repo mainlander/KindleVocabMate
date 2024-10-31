@@ -34,3 +34,23 @@ class VocabDB():
                 result.append(item)
                 word_list.append(word)
         return result
+
+    def all_books_words(self, timestamp=1):
+        cur = self.conn.cursor()
+        res = cur.execute(f'SELECT LOOKUPS.word_key,LOOKUPS.usage,WORDS.word,WORDS.stem,WORDS.lang,LOOKUPS.timestamp FROM LOOKUPS, WORDS WHERE LOOKUPS.word_key=WORDS.id AND LOOKUPS.timestamp>{timestamp}')
+        all_words = res.fetchall()
+        
+        word_list = []
+        result = []
+        for word_key in all_words:
+            key = word_key[0]
+            usage = word_key[1]
+            word = word_key[2]
+            stem = word_key[3].replace('・', '').replace('‐', '')
+            lang = word_key[4]
+            timestamp = word_key[5]
+            if word not in word_list:
+                item = {'word':word, 'key':key, 'usage':usage, 'stem':stem, 'lang':lang, 'definition':'', 'timestamp':timestamp}
+                result.append(item)
+                word_list.append(word)
+        return result

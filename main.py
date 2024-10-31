@@ -17,16 +17,21 @@ from utils import load_icon_from_url, DateDialog, VocabTableModel
 from dicts import JsonDictionary
 from DictionarySettingDialog import DictionarySettingDialog
 
+RELEASE_VERSION = "1.0"
+
 QApplication.setOrganizationDomain('dila.edu.tw')
 QApplication.setOrganizationName('DILA')
 QApplication.setApplicationName('KindleVocabMate')
 
 class KindleVocabMateMainWindow(QMainWindow, MainWindow.Ui_MainWindow):
-    def __init__(self):
+    def __init__(self, resources_dir):
         super().__init__()
         self.setupUi(self)
 
+        self.resources_dir = resources_dir
         self.dictSettingDialog = DictionarySettingDialog(self)
+
+        self.setWindowIcon(QIcon(os.path.join(self.resources_dir, 'kindle_vocab_mate.png')))
 
         # Signals
         self.connectSignals()
@@ -47,20 +52,20 @@ class KindleVocabMateMainWindow(QMainWindow, MainWindow.Ui_MainWindow):
         self.dbPathOpenButton.clicked.connect(self.openDBPathDialog)
         self.loadDBButton.clicked.connect(self.loadDB)
         self.loadVocabButton.clicked.connect(self.loadVocab)
-        self.outputFileSelectButton.clicked.connect(self.openOutputPathDialog)
         self.addDefinitionButton.clicked.connect(self.addDefinitionClick)
         self.langComboBox.currentIndexChanged.connect(self.dictComboBoxIndexChanged)
-        self.saveTSVButton.clicked.connect(self.saveTSV)
+        self.exportTSVButton.clicked.connect(self.exportTSV)
         self.timestampDateButton.clicked.connect(self.timestampDateButtonClick)
         self.actionOpen_Vocab_DB .triggered.connect(self.openDBPathDialog)
         self.actionLoad_DB.triggered.connect(self.loadDB)
         self.actionSelect_Timestamp.triggered.connect(self.timestampDateButtonClick)
         self.actionLoad_Vocabulary.triggered.connect(self.loadVocab)
         self.actionAdd_Definitions.triggered.connect(self.addDefinitionClick)
-        self.actionSelect_Ouput_File.triggered.connect(self.openOutputPathDialog)
-        self.actionSave_TSV_File.triggered.connect(self.saveTSV)
+        self.actionExport_TSV_File.triggered.connect(self.exportTSV)
         self.actionManage_Dictionaries.triggered.connect(self.manageDictionaries)
         self.autoDetectKindleButton.clicked.connect(self.autoDetectClicked)
+        self.actionAuto_Detect.triggered.connect(self.autoDetectClicked)
+        self.actionAbout.triggered.connect(self.about)
 
     def openDBPathDialog(self):
         filePath, fileType = QtWidgets.QFileDialog.getOpenFileName(self, filter='Kindle DB (*.db)')
@@ -105,7 +110,15 @@ class KindleVocabMateMainWindow(QMainWindow, MainWindow.Ui_MainWindow):
     def loadVocab(self):
         curIndex = self.bookListWidget.currentIndex().row()
         if curIndex == 0:
-            print("select All Books!")
+            currentTimeStamp = int(self.timestampEdit.text())
+            self.all_words = self.currentVocabDB.all_books_words(currentTimeStamp)
+            for word in self.all_words:
+                timestamp = word['timestamp']
+                if timestamp > self.max_timestamp:
+                    self.max_timestamp = timestamp
+            self.currentWordTableModel = VocabTableModel(self.all_words) 
+            self.vocabTableView.setModel(self.currentWordTableModel)
+            self.statusBar().showMessage(self.tr('All vocaburary is loaded.'), 5000)
         else:
             currentBookId = self.books[curIndex - 1]['id']
             currentTimeStamp = int(self.timestampEdit.text())
@@ -116,7 +129,7 @@ class KindleVocabMateMainWindow(QMainWindow, MainWindow.Ui_MainWindow):
                     self.max_timestamp = timestamp
             self.currentWordTableModel = VocabTableModel(self.all_words) 
             self.vocabTableView.setModel(self.currentWordTableModel)
-        self.statusBar().showMessage(self.tr('All vocaburary from {} is loaded.').format(self.books[curIndex - 1]["title"]), 5000)
+            self.statusBar().showMessage(self.tr('All vocaburary from {} is loaded.').format(self.books[curIndex - 1]["title"]), 5000)
             
     def loadDictionaries(self):
         self.all_installed_dicts = {}
@@ -126,6 +139,8 @@ class KindleVocabMateMainWindow(QMainWindow, MainWindow.Ui_MainWindow):
         if len(dict_list) <= 0:
             mbox = QMessageBox()
             mbox.information(self, self.tr('No Dictionaries'), self.tr('You have no dictionary. Please add dictionaries in the Setting.'))
+            self.langComboBox.clear()
+            self.dictionaryListWidget.clear()
             return
         for dictionary in dict_list:
             dict_prefix_path = os.path.join(os.path.dirname(dictionary['jifo_file']), Path(dictionary['jifo_file']).stem)
@@ -135,21 +150,6 @@ class KindleVocabMateMainWindow(QMainWindow, MainWindow.Ui_MainWindow):
             else:
                 self.all_installed_dicts[dictionary['lang']].append(dict_obj)
         self.langComboBox.clear()
-        self.langComboBox.addItems([key for key in self.all_installed_dicts])
-        self.dictionaryListWidget.clear()
-        for dkey in self.all_installed_dicts:
-            dict_list = self.all_installed_dicts[dkey]
-            for dictionary in dict_list:
-                dict_item = QListWidgetItem()
-                dict_item.setText(dictionary.name)
-                dict_item.setIcon(QIcon(dictionary.cover_image))
-                self.dictionaryListWidget.addItem(dict_item)
-            break
-
-        
-
-    def old_loadDictionaries(self):
-        self.all_installed_dicts = INSTALLED_DICTS
         self.langComboBox.addItems([key for key in self.all_installed_dicts])
         self.dictionaryListWidget.clear()
         for dkey in self.all_installed_dicts:
@@ -204,19 +204,27 @@ class KindleVocabMateMainWindow(QMainWindow, MainWindow.Ui_MainWindow):
         mbox = QMessageBox()
         mbox.information(self, self.tr('Add Definitions'), self.tr('Definitions from the selected dictionary are all added.'))
 
-    def saveTSV(self):
-        out_file_path = self.outputFileEdit.text()
-        with open(out_file_path, 'w', newline='') as csvfile:
-            word_writer = csv.writer(csvfile, delimiter='\t')
-            for item in self.all_words:
-                nitem = (item['word'], item['usage'], item['definition'].replace('\n', '').replace('\r', '').replace('\x00', '').strip())
-                word_writer.writerow(nitem)
-        mbox =QMessageBox()
-        mbox.information(self, self.tr('Save TSV File'), self.tr('The TSV file is saved successfully.'))
+    def exportTSV(self):
+        file_name = 'out.tsv'
+        today_string = QDateTime.currentDateTime().toString('yyyy-MM-dd')
+        curIndex = self.bookListWidget.currentIndex().row()
+        if curIndex == 0:
+            file_name = f'AllBooks-{today_string}_{str(self.max_timestamp)}.tsv'
+        elif curIndex > 0:
+            file_name = f"{self.books[curIndex - 1]['title']}-{today_string}_{str(self.max_timestamp)}.tsv"
+        
+        filePath, fileType = QtWidgets.QFileDialog.getSaveFileName(self, self.tr('Export TSV File'), file_name, filter='Tab Seperated Vector (*.tsv)')
+        if filePath:
+            with open(filePath, 'w', newline='') as csvfile:
+                word_writer = csv.writer(csvfile, delimiter='\t')
+                for item in self.all_words:
+                    nitem = (item['word'], item['usage'], item['definition'].replace('\n', '').replace('\r', '').replace('\x00', '').strip())
+                    word_writer.writerow(nitem)
+            mbox =QMessageBox()
+            mbox.information(self, self.tr('Export TSV File'), self.tr('The TSV file is saved successfully.'))
 
     def manageDictionaries(self):
         res = self.dictSettingDialog.exec()
-        print(res)
         self.loadDictionaries()
 
     def autoDetectClicked(self):
@@ -226,10 +234,10 @@ class KindleVocabMateMainWindow(QMainWindow, MainWindow.Ui_MainWindow):
                     self.dbPathEdit.settext('/volumes/kindle/system/vocabulary/vocab.db')
                 else:
                     mbox = QMessageBox()
-                    mbox.information(self, self.tr('no vocab.db'), self.tr('vocab.db does not exists in the kindle device.'))
+                    mbox.information(self, self.tr('No vocab.db'), self.tr('vocab.db does not exists in the kindle device.'))
             else:
                 mbox = QMessageBox()
-                mbox.information(self, self.tr('no kindle'), self.tr('no kindle device is detected'))
+                mbox.information(self, self.tr('No kindle'), self.tr('No kindle device is detected'))
         elif platform.system() == 'Windows':
             import wmi
             c = wmi.WMI()
@@ -237,6 +245,7 @@ class KindleVocabMateMainWindow(QMainWindow, MainWindow.Ui_MainWindow):
             for drive in c.Win32_LogicalDisk():
                 if drive.DriveType == 2 and drive.VolumeName == 'KINDLE':
                     kindleDrive = drive.Caption
+                    break
             if kindleDrive:
                 kindle_vocab_db_path = os.path.join(kindleDrive, '/system/vocabulary/vocab.db')
                 if os.path.exists(kindle_vocab_db_path):
@@ -246,11 +255,11 @@ class KindleVocabMateMainWindow(QMainWindow, MainWindow.Ui_MainWindow):
                     mbox.information(self, self.tr('no vocab.db'), self.tr('vocab.db does not exists in the kindle device.'))
             else:
                 mbox = QMessageBox()
-                mbox.information(self, self.tr('no kindle'), self.tr('no kindle device is detected'))
+                mbox.information(self, self.tr('no kindle'), self.tr('No kindle device is detected'))
 
-
-    
-
+    def about(self):
+        mbox = QMessageBox()
+        mbox.about(self, self.tr('About Kindle VocabMate'), self.tr('Kindle VocabMate\n\n Version {}').format(RELEASE_VERSION))
 
 if __name__ == '__main__':
     dataPath = QStandardPaths.writableLocation(QStandardPaths.StandardLocation.AppLocalDataLocation)
@@ -272,10 +281,13 @@ if __name__ == '__main__':
         bundle_dir = os.path.dirname(os.path.abspath(__file__))
         resources_dir = bundle_dir
 
+    base_translator = QTranslator()
+    base_translator.load('qtbase_' + QLocale.system().name() + '.qm', os.path.join(resources_dir, 'translate'))
     translator = QTranslator()
     translator.load(QLocale.system().name() + '.qm', os.path.join(resources_dir, 'translate'))
+    app.installTranslator(base_translator)
     app.installTranslator(translator)
 
-    window = KindleVocabMateMainWindow()
+    window = KindleVocabMateMainWindow(resources_dir)
     window.show()
     sys.exit(app.exec())

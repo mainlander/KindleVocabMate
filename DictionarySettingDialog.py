@@ -27,7 +27,6 @@ class DictionarySettingDialog(QDialog, Ui_DictionarySettingDialog):
     def updateDictionaryList(self):
         self.dictListWidget.clear()
         self.dicts_json = self.settings.value('installed_dictionaries', '[]')
-        print(self.dicts_json)
         dict_json_obj = json.loads(self.dicts_json)
         for dictionary in dict_json_obj:
             dict_item = QListWidgetItem()
@@ -48,21 +47,30 @@ class DictionarySettingDialog(QDialog, Ui_DictionarySettingDialog):
         if select_row >= 0:
             edit_dialog = EditDictionaryDialog(self)
             edit_dialog.setDictionaryIndex(select_row)
+            edit_dialog.updated.connect(self.updateDictionaryList)
             res = edit_dialog.exec()
             print(res)
         else:
             mbox = QMessageBox()
             mbox.critical(self, self.tr('No Dictionary Selected'), self.tr('Please select a dictionary you want to edit.'))
 
-        print("editDictionary clicked.")
-
     def deleteDictionary(self):
-        print("deleteDictionary clicked.")
+        select_row = self.dictListWidget.currentRow()
+        select_text = self.dictListWidget.currentItem().text()
+        if select_row >= 0:
+            mbox = QMessageBox()
+            res = mbox.question(self, self.tr('Delete Dictionary'), self.tr('Are you sure to delete {}?').format(select_text))
+            if res == QMessageBox.StandardButton.Yes:
+                settings = QSettings()
+                dicts_json = settings.value("installed_dictionaries", "[]")
+                dicts_json_obj = json.loads(dicts_json)
+                del dicts_json_obj[select_row]
+                settings.setValue("installed_dictionaries", json.dumps(dicts_json_obj))
+                self.updateDictionaryList()
+
 
     def accept(self):
-        print('buttonBox accept.')
         super().accept()
 
     def reject(self):
-        print('buttonBox reject.')
         super().reject()

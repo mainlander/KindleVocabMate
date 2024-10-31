@@ -186,30 +186,9 @@
          </layout>
         </item>
         <item>
-         <layout class="QHBoxLayout" name="horizontalLayout_3">
-          <item>
-           <widget class="QLabel" name="label_4">
-            <property name="text">
-             <string>Output File:</string>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QLineEdit" name="outputFileEdit"/>
-          </item>
-          <item>
-           <widget class="QPushButton" name="outputFileSelectButton">
-            <property name="text">
-             <string>Select...</string>
-            </property>
-           </widget>
-          </item>
-         </layout>
-        </item>
-        <item>
-         <widget class="QPushButton" name="saveTSVButton">
+         <widget class="QPushButton" name="exportTSVButton">
           <property name="text">
-           <string>Save TSV File</string>
+           <string>Export TSV File</string>
           </property>
          </widget>
         </item>
@@ -230,9 +209,11 @@
    </property>
    <widget class="QMenu" name="menuKindle_DB">
     <property name="title">
-     <string>Kindle DB</string>
+     <string>Kindle</string>
     </property>
     <addaction name="actionOpen_Vocab_DB"/>
+    <addaction name="actionAuto_Detect"/>
+    <addaction name="separator"/>
     <addaction name="actionLoad_DB"/>
    </widget>
    <widget class="QMenu" name="menuBook">
@@ -252,8 +233,7 @@
     <property name="title">
      <string>Export</string>
     </property>
-    <addaction name="actionSelect_Ouput_File"/>
-    <addaction name="actionSave_TSV_File"/>
+    <addaction name="actionExport_TSV_File"/>
    </widget>
    <widget class="QMenu" name="menuSettings">
     <property name="title">
@@ -261,11 +241,18 @@
     </property>
     <addaction name="actionManage_Dictionaries"/>
    </widget>
+   <widget class="QMenu" name="menuHelp">
+    <property name="title">
+     <string>Help</string>
+    </property>
+    <addaction name="actionAbout"/>
+   </widget>
    <addaction name="menuKindle_DB"/>
    <addaction name="menuBook"/>
    <addaction name="menuDictionary"/>
    <addaction name="menuExport"/>
    <addaction name="menuSettings"/>
+   <addaction name="menuHelp"/>
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
   <action name="actionOpen_Vocab_DB">
@@ -298,14 +285,24 @@
     <string>Select Ouput File...</string>
    </property>
   </action>
-  <action name="actionSave_TSV_File">
+  <action name="actionExport_TSV_File">
    <property name="text">
-    <string>Save TSV File</string>
+    <string>Export TSV File</string>
    </property>
   </action>
   <action name="actionManage_Dictionaries">
    <property name="text">
     <string>Manage Dictionaries...</string>
+   </property>
+  </action>
+  <action name="actionAuto_Detect">
+   <property name="text">
+    <string>Auto Detect</string>
+   </property>
+  </action>
+  <action name="actionAbout">
+   <property name="text">
+    <string>About</string>
    </property>
   </action>
  </widget>

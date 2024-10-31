@@ -34,7 +34,11 @@
        </widget>
       </item>
       <item row="0" column="1">
-       <widget class="QLineEdit" name="dictionaryNameLineEdit"/>
+       <widget class="QLineEdit" name="dictionaryNameLineEdit">
+        <property name="readOnly">
+         <bool>true</bool>
+        </property>
+       </widget>
       </item>
       <item row="2" column="0">
        <widget class="QLabel" name="label_2">
@@ -45,6 +49,9 @@
       </item>
       <item row="2" column="1">
        <widget class="QComboBox" name="dictionaryLangComboBox">
+        <property name="enabled">
+         <bool>false</bool>
+        </property>
         <property name="editable">
          <bool>false</bool>
         </property>

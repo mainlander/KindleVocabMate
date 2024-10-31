@@ -17,16 +17,15 @@ class NewDictionaryDialog(QDialog, Ui_NewDictionaryDialog):
 
     def openJifoFile(self):
         filePath, fileType = QFileDialog.getOpenFileName(self, filter='Json Dictionary ifo (*.jifo)')
-        print(filePath, fileType)
-        self.jifoFileLineEdit.setText(filePath)
+        if filePath:
+            self.jifoFileLineEdit.setText(filePath)
 
     def openImageFile(self):
-        filePath, fileType = QFileDialog.getOpenFileName(self, filter='All files (*.*);;BMP (*.bmp);;GIF (*.gif);;ICNS (*.icns);;ICO (*.ico);;JPEG (*.jpeg *.jpg);;PNG (*.png);;PPM (*.ppm);;SVG (*.svg);;SVGZ (*.svgz);;TIFF (*.tif *.tiff);;WBMP (*.wbmp);;WEBP (*.webp)')
-        print(filePath, fileType)
-        self.coverImageLineEdit.setText(filePath)
+        filePath, fileType = QFileDialog.getOpenFileName(self, filter='Images (*.jpeg *.jpg *.png  *.gif *.tif *.tiff *.bmp *.svg *.webp)')
+        if filePath:
+            self.coverImageLineEdit.setText(filePath)
 
     def accept(self):
-        print('buttonBox accept.')
         jifofile = self.jifoFileLineEdit.text()
         cover = self.coverImageLineEdit.text()
 
@@ -63,5 +62,4 @@ class NewDictionaryDialog(QDialog, Ui_NewDictionaryDialog):
         super().accept()
 
     def reject(self):
-        print('buttonBox reject.')
         super().reject()
