@@ -86,6 +86,10 @@ class KindleVocabMateMainWindow(QMainWindow, MainWindow.Ui_MainWindow):
         self.outputFileEdit.setText(filePath)
 
     def loadDB(self):
+        if self.dbPathEdit.text().strip() == '':
+            mbox = QMessageBox()
+            mbox.critical(self, self.tr('No vocab.db Path'), self.tr('Please set the path of vocab.db first.'))
+            return
         self.currentVocabDB = VocabDB(self.dbPathEdit.text())
         self.books = self.currentVocabDB.book_infos()
         self.bookListWidget.clear()
@@ -109,7 +113,10 @@ class KindleVocabMateMainWindow(QMainWindow, MainWindow.Ui_MainWindow):
 
     def loadVocab(self):
         curIndex = self.bookListWidget.currentIndex().row()
-        if curIndex == 0:
+        if curIndex < 0:
+            mbox = QMessageBox()
+            mbox.critical(self, self.tr('DB is Not Loaded.'), self.tr('Please load Kindle vocab.db first.'))
+        elif curIndex == 0:
             currentTimeStamp = int(self.timestampEdit.text())
             self.all_words = self.currentVocabDB.all_books_words(currentTimeStamp)
             for word in self.all_words:
@@ -181,6 +188,10 @@ class KindleVocabMateMainWindow(QMainWindow, MainWindow.Ui_MainWindow):
     def addDefinitionClick(self):
         currentLang = self.langComboBox.currentText()
         currentDictIndex = self.dictionaryListWidget.currentRow()
+        if not self.all_words:
+            mbox = QMessageBox()
+            mbox.critical(self, self.tr('No Words'), self.tr('Please load vocaburary first.'))
+            return
         if currentDictIndex < 0:
             mbox = QMessageBox()
             mbox.critical(self, self.tr('Error'), self.tr('No selected dictionary.'))
@@ -208,7 +219,11 @@ class KindleVocabMateMainWindow(QMainWindow, MainWindow.Ui_MainWindow):
         file_name = 'out.tsv'
         today_string = QDateTime.currentDateTime().toString('yyyy-MM-dd')
         curIndex = self.bookListWidget.currentIndex().row()
-        if curIndex == 0:
+        if curIndex < 0:
+            mbox = QMessageBox()
+            mbox.critical(self, self.tr('No Selected Book'), self.tr('Please select a book first.'))
+            return
+        elif curIndex == 0:
             file_name = f'AllBooks-{today_string}_{str(self.max_timestamp)}.tsv'
         elif curIndex > 0:
             file_name = f"{self.books[curIndex - 1]['title']}-{today_string}_{str(self.max_timestamp)}.tsv"
