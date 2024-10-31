@@ -56,8 +56,10 @@ KindleVocabMate 使用的字典為專屬的 JSON 格式，如您需使用自己�
 
 於「新增字典」對話框中，設定字典的 .jifo 檔案與封面圖檔的路徑，可點選輸入框右方的「開啟...」按鈕，打開作業系統的檔案選擇對話框，選擇相應的檔案。
 
-(image)
+![add_dict](https://raw.githubusercontent.com/mainlander/KindleVocabMate/refs/heads/main/screenshot/screen-add-dict-dialog.png)
 
 完成後按下「確定」按鈕，若字典檔案正常載入，即回到「已安裝的字典」對話框，並可看到新增的字典已出現於選單之中。
 
-(image)
+![ins_dict_finish](https://raw.githubusercontent.com/mainlander/KindleVocabMate/refs/heads/main/screenshot/screen-add-dict-finish.png)
+
+若欲新增其它字典，請重覆以上操作流程。
