@@ -125,105 +125,145 @@
 <context>
     <name>KindleVocabMateMainWindow</name>
     <message>
-        <location filename="../main.py" line="94"/>
+        <location filename="../main.py" line="91"/>
+        <source>No vocab.db Path</source>
+        <translation>未設定 vocab.db 路徑</translation>
+    </message>
+    <message>
+        <location filename="../main.py" line="91"/>
+        <source>Please set the path of vocab.db first.</source>
+        <translation>請先設定 vocab.db 檔案之路徑。</translation>
+    </message>
+    <message>
+        <location filename="../main.py" line="97"/>
         <source>All Books</source>
         <translation>所有書籍</translation>
     </message>
     <message>
-        <location filename="../main.py" line="109"/>
+        <location filename="../main.py" line="112"/>
         <source>Kindle vocab.db is loaded</source>
         <translation>Kindle vocab.db 檔案已載入</translation>
     </message>
     <message>
-        <location filename="../main.py" line="122"/>
+        <location filename="../main.py" line="118"/>
+        <source>DB is Not Loaded.</source>
+        <translation>DB 未載入。</translation>
+    </message>
+    <message>
+        <location filename="../main.py" line="118"/>
+        <source>Please load Kindle vocab.db first.</source>
+        <translation>請先載入 Kindle 的 vocab.db 檔案。</translation>
+    </message>
+    <message>
+        <location filename="../main.py" line="128"/>
         <source>All vocaburary is loaded.</source>
         <translation>所有生詞已載入。</translation>
     </message>
     <message>
-        <location filename="../main.py" line="133"/>
+        <location filename="../main.py" line="139"/>
         <source>All vocaburary from {} is loaded.</source>
         <translation>{} 書中的所有生詞已載入。</translation>
     </message>
     <message>
-        <location filename="../main.py" line="142"/>
+        <location filename="../main.py" line="148"/>
         <source>No Dictionaries</source>
         <translation>找不到字典</translation>
     </message>
     <message>
-        <location filename="../main.py" line="142"/>
+        <location filename="../main.py" line="148"/>
         <source>You have no dictionary. Please add dictionaries in the Setting.</source>
         <translation>目前未安裝任何字典，請於設定選項中新增字典。</translation>
     </message>
     <message>
-        <location filename="../main.py" line="187"/>
+        <location filename="../main.py" line="193"/>
+        <source>No Words</source>
+        <translation>沒有生詞</translation>
+    </message>
+    <message>
+        <location filename="../main.py" line="193"/>
+        <source>Please load vocaburary first.</source>
+        <translation>請先載入生詞。</translation>
+    </message>
+    <message>
+        <location filename="../main.py" line="197"/>
         <source>Error</source>
         <translation>錯誤</translation>
     </message>
     <message>
-        <location filename="../main.py" line="187"/>
+        <location filename="../main.py" line="197"/>
         <source>No selected dictionary.</source>
         <translation>未選擇字典。</translation>
     </message>
     <message>
-        <location filename="../main.py" line="206"/>
+        <location filename="../main.py" line="216"/>
         <source>Add Definitions</source>
         <translation>增加解釋</translation>
     </message>
     <message>
-        <location filename="../main.py" line="206"/>
+        <location filename="../main.py" line="216"/>
         <source>Definitions from the selected dictionary are all added.</source>
         <translation>從選擇的詞典已載入所有的解釋。</translation>
     </message>
     <message>
-        <location filename="../main.py" line="225"/>
-        <location filename="../main.py" line="217"/>
+        <location filename="../main.py" line="224"/>
+        <source>No Selected Book</source>
+        <translation>未選擇書籍</translation>
+    </message>
+    <message>
+        <location filename="../main.py" line="224"/>
+        <source>Please select a book first.</source>
+        <translation>請先選擇書籍。</translation>
+    </message>
+    <message>
+        <location filename="../main.py" line="239"/>
+        <location filename="../main.py" line="231"/>
         <source>Export TSV File</source>
         <translation>匯出成 TSV 檔案</translation>
     </message>
     <message>
-        <location filename="../main.py" line="225"/>
+        <location filename="../main.py" line="239"/>
         <source>The TSV file is saved successfully.</source>
         <translation>TSV 檔案已成功儲存。</translation>
     </message>
     <message>
-        <location filename="../main.py" line="238"/>
+        <location filename="../main.py" line="252"/>
         <source>No vocab.db</source>
         <translation>找不到 vocab.db</translation>
     </message>
     <message>
-        <location filename="../main.py" line="256"/>
-        <location filename="../main.py" line="238"/>
+        <location filename="../main.py" line="270"/>
+        <location filename="../main.py" line="252"/>
         <source>vocab.db does not exists in the kindle device.</source>
         <translation>在 Kindle 裝置上找不到 vocab.db。</translation>
     </message>
     <message>
-        <location filename="../main.py" line="241"/>
+        <location filename="../main.py" line="255"/>
         <source>No kindle</source>
         <translation>找不到 Kindle</translation>
     </message>
     <message>
-        <location filename="../main.py" line="259"/>
-        <location filename="../main.py" line="241"/>
+        <location filename="../main.py" line="273"/>
+        <location filename="../main.py" line="255"/>
         <source>No kindle device is detected</source>
         <translation>未偵測到 Kindle 裝置</translation>
     </message>
     <message>
-        <location filename="../main.py" line="256"/>
+        <location filename="../main.py" line="270"/>
         <source>no vocab.db</source>
         <translation>找不到 vocab.db</translation>
     </message>
     <message>
-        <location filename="../main.py" line="259"/>
+        <location filename="../main.py" line="273"/>
         <source>no kindle</source>
         <translation>找不到 Kindle</translation>
     </message>
     <message>
-        <location filename="../main.py" line="263"/>
+        <location filename="../main.py" line="277"/>
         <source>About Kindle VocabMate</source>
         <translation>關於 Kindle VocabMate</translation>
     </message>
     <message>
-        <location filename="../main.py" line="263"/>
+        <location filename="../main.py" line="277"/>
         <source>Kindle VocabMate
 
  Version {}</source>
