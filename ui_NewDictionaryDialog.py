@@ -59,7 +59,7 @@ class Ui_NewDictionaryDialog(object):
 
     def retranslateUi(self, NewDictionaryDialog):
         _translate = QtCore.QCoreApplication.translate
-        NewDictionaryDialog.setWindowTitle(_translate("NewDictionaryDialog", "Dialog"))
+        NewDictionaryDialog.setWindowTitle(_translate("NewDictionaryDialog", "Add New Dictionary"))
         self.groupBox.setTitle(_translate("NewDictionaryDialog", "New Dictionary"))
         self.label_3.setText(_translate("NewDictionaryDialog", ".jifo File:"))
         self.openJifoFileButton.setText(_translate("NewDictionaryDialog", "Open..."))
