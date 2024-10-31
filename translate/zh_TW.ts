@@ -334,7 +334,7 @@
     <message>
         <location filename="../MainWindow.ui" line="0"/>
         <source>Dictionary Language:</source>
-        <translation>詞典語言：</translation>
+        <translation>字典語言：</translation>
     </message>
     <message>
         <location filename="../MainWindow.ui" line="0"/>
