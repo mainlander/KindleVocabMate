@@ -1,6 +1,8 @@
 # Kindle VocabMate
 將 Kindle 生詞本導出轉換成可匯入 Anki 牌組之工具。以 Python 語言開發之跨平台圖形介面工具，目前支援 Windows、macOS 與 Unix-like 平台。
 
+最新版本請在[這裡](https://github.com/mainlander/KindleVocabMate/releases/tag/v1.0)下載。
+
 ## 開發環境需求
 * Python 3
 * PyQt6
