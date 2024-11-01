@@ -230,7 +230,7 @@ class KindleVocabMateMainWindow(QMainWindow, MainWindow.Ui_MainWindow):
         
         filePath, fileType = QtWidgets.QFileDialog.getSaveFileName(self, self.tr('Export TSV File'), file_name, filter='Tab Seperated Vector (*.tsv)')
         if filePath:
-            with open(filePath, 'w', newline='') as csvfile:
+            with open(filePath, 'w', newline='', encoding='utf-8') as csvfile:
                 word_writer = csv.writer(csvfile, delimiter='\t')
                 for item in self.all_words:
                     nitem = (item['word'], item['usage'], item['definition'].replace('\n', '').replace('\r', '').replace('\x00', '').strip())
